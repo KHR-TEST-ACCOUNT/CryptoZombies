@@ -102,7 +102,7 @@ contract ZombieOwnership is ZombieBattle, ERC721 {
     }
 
     /**
-     * @dev approve　で許可された人が呼び出す関数 → 関数を呼び出した人が Sender
+     * @dev approve で許可された人が呼び出す関数 → 関数を呼び出した人が Sender
      * @param _tokenId 移管するトークン → 関数の呼び出しもとが所有者からの認可をえているかをチェック
      *                  → 承認済みなら、呼び出した人にトークンを移転する。
      */

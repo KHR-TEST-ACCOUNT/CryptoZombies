@@ -51,7 +51,6 @@ contract ZombieFactory is Ownable {
     function _createZombie(string memory _name, uint _dna) internal {
         // 注：2038年問題を防止しないことを選択しました。そのため、以下のものは必要ありません。
         // readyTimeのオーバーフローを心配する。どうせ2038年には我々のアプリはダメになっているのだから ;)
-        // uint id = zombies.push(Zombie(_name, _dna, 1, uint32(block.timestamp + cooldownTime))) -1;
         zombies.push(
             Zombie(_name, _dna, 1, uint32(block.timestamp + cooldownTime), 0, 0)
         );
