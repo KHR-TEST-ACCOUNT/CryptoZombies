@@ -5,18 +5,27 @@
  * @format
  */
 const CryptoZombies = artifacts.require('CryptoZombies');
+// テスト用のTry Catch Util
+const utils = require('./helpers/utils');
 // for test. 100件でもFor文で対応できるように。
 const zombieNames = ['koya-v1', 'koya-v2'];
+// テスト前のインスタンス生成用 → 初期化しないので、Let で生成
+let cryptoZombies;
 
 //test code → CryptoZombies は テストするコントラクト（ビルド）
 contract('CryptoZombies', (accounts) => {
     // Ganash のアカウントを格納する  alice→０, bob→１
     let [alice, bob] = accounts;
+
+    // Hooks → ITの前に、インスタンスを生成する
+    beforeEach(async () => {
+        // create instance → ブロックチェーンと対話するので Await を使う
+        cryptoZombies = await CryptoZombies.new();
+    });
+
     // test start → 非同期関数として呼び出す。
     //   → ブロックチェーンと会話するため。 → BCは、非同期関数。
     it('新しいゾンビを生成できるようにする', async () => {
-        // create instance → ブロックチェーンと対話するので Await を使う
-        const cryptoZombies = await CryptoZombies.new();
         // alice -> 0 が関数を呼び出したとして実行 → Alice の残高が引かれる。
         //  Result → トランザクションの結果を格納している。 await を忘れない。
         const result = await cryptoZombies.createRandomZombie(zombieNames[0], {
@@ -30,5 +39,15 @@ contract('CryptoZombies', (accounts) => {
          */
         assert.equal(result.receipt.status, true);
         assert.equal(result.logs[0].args.name, zombieNames[0]);
+    });
+
+    it('2体目のゾンビを許してはならない', async () => {
+        await cryptoZombies.createRandomZombie(zombieNames[0], { from: alice });
+        // Try Catch を実行 → Await は Utils の関数につける。→ あくまでもブロックと協調するため
+        await utils.shouldThrow(
+            cryptoZombies.createRandomZombie(zombieNames[1], {
+                from: alice,
+            })
+        );
     });
 });

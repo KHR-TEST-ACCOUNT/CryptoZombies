@@ -16,9 +16,10 @@ contract Ownable {
 
     /**
      * @dev Ownableコンストラクタは、契約の元の`所有者`を送信者のアカウントに設定します。
-     * なぜ警告がでるのかは不明。→コンストラクタのビジビリティは無視されるとでる。
+     * Visibility (public / external) is not needed for constructors anymore:
+     * → Visibility 可視性 の修飾子(public / external) は、古いのでコンストラクタには必要ない。
      */
-    constructor() public {
+    constructor() {
         owner = msg.sender;
     }
 

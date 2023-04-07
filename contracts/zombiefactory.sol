@@ -74,8 +74,9 @@ contract ZombieFactory is Ownable {
     }
 
     function createRandomZombie(string memory _name) public {
-        //  ゾンビのDNA乱数を16桁になるように変換
+        // １つのアカウントが複数体のゾンビを作成できないようにする。
         require(ownerZombieCount[msg.sender] == 0);
+        //  ゾンビのDNA乱数を16桁になるように変換
         uint randDna = _generateRandomDna(_name);
         // ゾンビを作成 ＋ DNAの乱数を格納
         _createZombie(_name, randDna);
