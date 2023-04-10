@@ -9,6 +9,9 @@ const CryptoZombies = artifacts.require('CryptoZombies');
 const utils = require('./helpers/utils');
 // ブロックの時間をｎ時間 進めるようのファイル
 const time = require('./helpers/time');
+// Assertions with Chai
+// const expect = require('chai').expect;
+
 // for test. 100件でもFor文で対応できるように。
 const zombieNames = ['koya-v1', 'koya-v2'];
 // テスト前のインスタンス生成用 → 初期化しないので、Let で生成
@@ -136,6 +139,9 @@ contract('CryptoZombies', (accounts) => {
         });
         // 勝った場合、feedAndMultiply の require(_isReady(myZombie)); でエラーになる。
         //  → ゾンビを作った時に１日のクールダウン必須 → 勝った時に、クールダウンしてるか確認の為
+        // Assertions with Chai
+        // expect(result.receipt.status).to.equal(true);
+        // Pure
         assert.equal(result.receipt.status, true);
     });
 });
